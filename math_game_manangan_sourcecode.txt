@@ -1,0 +1,509 @@
+using System;
+
+public class Player
+{
+    public string Name { get; set; }
+
+    public Player(string name)
+    {
+        Name = name;
+    }
+}
+
+class GameAssets
+{
+    public int PlayerHealth { get; set; }
+    public int bossHealth { get; set; }
+    public string[] Questions { get; set; }
+    public int[] Answers { get; set; }
+
+    public GameAssets(int initialPlayerHealth, int initialBossHealth)
+    {
+        PlayerHealth = initialPlayerHealth;
+        bossHealth = initialBossHealth;
+    }
+
+    protected bool AskForReplay()
+    {
+        while (true)
+        {
+            Console.WriteLine();
+            Console.Write("Do you want to play again? (y/n): ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            string input = Console.ReadLine().ToLower();
+            Console.ForegroundColor = ConsoleColor.White;
+
+            if (input == "y" )
+            {
+                return true;
+            }
+            else if (input == "n")
+            {
+                return false;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid input. Please enter 'y' for yes or 'n' for no.");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        }
+    }
+
+    protected void ResetGame()
+    {
+        PlayerHealth = 100;
+        Console.Clear();
+
+    }
+
+    protected int GetBossHealthReduction(int difficultyLevel)
+    {
+        switch (difficultyLevel)
+        {
+            case 1:
+                return 20;
+            case 2:
+                return 22;
+            case 3:
+                return 25;
+            default:
+                throw new ArgumentException("Invalid difficulty level");
+        }
+    }
+
+    protected string GetDifficultyName(int difficultyLevel)
+    {
+        switch (difficultyLevel)
+        {
+            case 1:
+                return "Easy Level";
+            case 2:
+                return "Medium Level";
+            case 3:
+                return "Hard Level";
+            default:
+                throw new ArgumentException("Invalid difficulty level");
+        }
+    }
+
+    protected int CalculateInitialBossHealth(int difficultyLevel)
+    {
+        switch (difficultyLevel)
+        {
+            case 1:
+                return 100;
+            case 2:
+                return 198;
+            case 3:
+                return 300;
+            default:
+                throw new ArgumentException("Invalid difficulty level");
+        }
+    }
+
+    public string GetRandomBossDialogue()
+    {
+        string[] bossDialogues = new string[]
+        {
+            "\"Prepare yourself for my next move!\"",
+            "\"Unlucky for you, I \nwon't be defeated easily!\"",
+            "\"Show me more of your strength!\"",
+            "\"You won't escape my \nunsolvable attack!\"",
+            "\"I am known to be the \nundefeated, adventurer!\""
+        };
+
+        Random random1 = new Random();
+        int index1 = random1.Next(bossDialogues.Length);
+        return bossDialogues[index1];
+    }
+
+    public string GetRandomBossVictoryDialogue()
+    {
+        
+        string[] bossVictoryDialogues = new string[]
+        {
+            "\"You've proven yourself worthy.\n I bow to your skill!\"",
+            "\"I underestimated you, andventurer. Congratulations!\"",
+            "\"Victory is yours, Math King, \n more challenges lie ahead.\"",
+            "\"I yield! You are a formidable opponent.\"",
+            "\"Well fought! I commend you \n on your victory.\""
+        };
+
+        Random random2 = new Random();
+        int index2 = random2.Next(bossVictoryDialogues.Length);
+        return bossVictoryDialogues[index2];
+    }
+
+    public string GetRandomPlayerDefeatedDialogue()
+    {
+
+        string[] bossVictoryDialogues = new string[]
+        {
+           "\"You were no match for my intellect!\"",
+            "\"Defeat is the fate of those who challenge me.\"",
+            "\"Your calculations were flawed, and so are you.\"",
+            "\"Better luck next time, adventurer!\"",
+            "\"You fought bravely, but victory was never yours to claim.\""
+        };
+
+        Random random3 = new Random();
+        int index3 = random3.Next(bossVictoryDialogues.Length);
+        return bossVictoryDialogues[index3];
+    }
+
+    public string GetRandomBossName()
+    {
+        string[] bossNames = new string[]
+        {
+            "Xarith",
+            "Sylvana",
+            "Zylox",
+            "Lunaarith",
+            "Thundrax"
+        };
+
+        Random random4 = new Random();
+        int index4 = random4.Next(bossNames.Length);
+        return bossNames[index4];
+    }
+
+    public string GetRandomBossNickName()
+    {
+        string[] bossNickNames = new string[]
+        {
+            " the Mathemagician",
+            " the Calculatrix",
+            " the Equation Enforcer",
+            " the Number Nihilist",
+            " the Arithmetic Annihilator"
+        };
+
+        Random random5 = new Random();
+        int index5 = random5.Next(bossNickNames.Length);
+        return bossNickNames[index5];
+    }
+}
+
+class MathGame : GameAssets
+{
+    public MathGame(int initialPlayerHealth, int initialBossHealth)
+        : base(initialPlayerHealth, initialBossHealth)
+    {
+    }
+
+    public void GameLogic(int difficultyLevel, Player player)
+    {
+        bossHealth = CalculateInitialBossHealth(difficultyLevel);
+
+        Console.WriteLine();
+        string bossName = GetRandomBossName();
+        string bossNickName = GetRandomBossNickName();
+        Console.WriteLine($"Get ready to face {bossName}{bossNickName}!");
+        
+
+        for (int i = 0; i < Questions.Length; i++)
+        {
+            Console.WriteLine();
+            string bossDialogue = GetRandomBossDialogue();
+            Console.WriteLine($"{bossName}: {bossDialogue}");
+            Console.WriteLine();
+            Console.WriteLine($"{bossName}'s Health: {bossHealth}hp || {player.Name}'s Health: {PlayerHealth}hp");
+            Console.WriteLine();
+            Console.WriteLine(Questions[i]);
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Answer: ");
+            int userAnswer;
+
+            
+            while (!int.TryParse(Console.ReadLine(), out userAnswer))
+            {
+                
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid input. Please enter a number.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Answer: ");
+                Console.ForegroundColor = ConsoleColor.White;
+
+            }
+
+            if (userAnswer == Answers[i])
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("==================================================");
+                Console.WriteLine("Correct!");
+                
+                Console.WriteLine($"BOSS RECEIVES A -{GetBossHealthReduction(difficultyLevel)} HP CRITICAL HIT");
+                Console.WriteLine("==================================================");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine();
+
+                bossHealth -= GetBossHealthReduction(difficultyLevel);
+
+                if (bossHealth <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine();
+                    Console.WriteLine(@"
+
+     __ ____  _________ ___  ____ _  _
+     || |||| //  | || |// \\ || \\\\//
+     \\ //||((     || ((   ))||_// )/ 
+      \V/ || \\__  ||  \\_// || \\//   
+                                                     
+");
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine($"      YOU WIN THE GAME in {GetDifficultyName(difficultyLevel)}! ");
+                    Console.WriteLine("        THE BOSS HAS BEEN DEFEATED!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    string bossVictoryDialogue = GetRandomBossVictoryDialogue();
+                    Console.WriteLine($"{bossName}: {bossVictoryDialogue}");
+
+                    if (AskForReplay())
+                    {
+                        ResetGame();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Thank you for playing {player.Name}. Goodbye!");
+                        Console.ReadLine();
+                        Environment.Exit(0);
+                    }
+                }
+            }
+            else
+            {
+                
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("==================================================");
+                Console.WriteLine($"Incorrect! The correct answer is: {Answers[i]}");
+                Console.WriteLine("YOU DIED INSTANTLY, BOSS DEALT -100 HP HIT!");
+                PlayerHealth -= 100;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"{player.Name}'s Health: {PlayerHealth}hp");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("==================================================");
+                Console.ForegroundColor = ConsoleColor.White;
+                
+
+
+
+                if (PlayerHealth <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine();
+                    Console.WriteLine(@"
+
+         __   ___  ___  ___   _  ___ 
+        |  \ | __|| __|| __| / \|_ _|
+        | o )| _| | _| | _| | o || | 
+        |__/ |___||_|  |___||_n_||_| 
+                             
+");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"        GAME OVER in {GetDifficultyName(difficultyLevel)}! ");
+                    Console.WriteLine($"You were defeated by {bossName}{bossNickName}!");
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    Console.WriteLine();
+                    string bossVictoryDialogues = GetRandomPlayerDefeatedDialogue();
+                    Console.WriteLine($"{bossName}: {bossVictoryDialogues}");
+
+                    if (AskForReplay())
+                    {
+                        ResetGame();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Thank you for playing {player.Name}. Goodbye!");
+                        Console.ReadLine();
+                        Environment.Exit(0);
+                    }
+                }
+            }
+        }
+    }
+}
+
+class MainProgram
+{
+    public static void Main()
+    {
+        
+        do
+        {
+            Console.WriteLine(@"
+
+  _  _ ______        ____    _________  _____ 
+  |\/||__| | |__| _  |  |  _ |__/|__||\/||__| 
+  |  ||  | | |  |    |__|    |  \|  ||  ||  | 
+                                                     
+                                            
+
+");
+
+        Console.WriteLine("             Press any key to start");
+        Console.ReadKey();
+        Console.Clear();
+
+        int initialPlayerHealth = 100;
+        
+            
+            Console.WriteLine();
+            Console.WriteLine("Greetings, adventurer!");
+            Console.Write("What is your name?: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            string playerName = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
+            Console.WriteLine($" Welcome, {playerName},this is Math-O-Rama \n where math is an adventure,");
+            Console.WriteLine(" numbers can kill you, and every problem \n is a chance to have fun with numbers-");
+            Console.WriteLine(" just don't die!. Are you ready to play?");
+            Console.WriteLine();
+            Console.Write("Type 'y' (yes) or 'n' (no): ");
+
+            string ready;
+            while (true)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                ready = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.White;
+
+                if (ready == "y" || ready == "Y")
+                {
+                    Console.Clear();
+                    break;
+                }
+                else if (ready == "n" || ready == "N") 
+                { 
+                    Console.WriteLine("Okay, maybe next time. Goodbye!");
+                    Environment.Exit(0);
+                    break;
+                    
+                }
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid input. Please type 'y' for yes or 'n' for no.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Type 'y' (yes) or 'n' (no): ");
+            }
+
+ 
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("    -------- MATH-O-RAMA ---------");
+                Console.WriteLine("          By Kris Manangan");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine();
+                Console.WriteLine("         ------ MENU ------- ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("       1 = Easy (5 questions)");
+                
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("       2 = Medium (9 questions)");
+               
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("       3 = Hard (12 questions)");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine();
+                Console.Write("Choose a game mode: ");
+
+                int difficultyOption;
+                Console.ForegroundColor = ConsoleColor.Green;
+                while (!int.TryParse(Console.ReadLine(), out difficultyOption) || difficultyOption < 1 || difficultyOption > 3)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid game mode.\n Please choose 1, 2, or 3.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("Choose a game mode: ");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+                
+                MathGame currentGame = new MathGame(initialPlayerHealth, 0); // Initial boss health set to 0
+                SetQuestionsAndAnswers(currentGame, difficultyOption);
+                currentGame.GameLogic(difficultyOption, new Player(playerName));
+                
+            
+
+        } while (true);
+    }
+
+
+    public static void SetQuestionsAndAnswers(MathGame game, int difficultyOption)
+    {
+        switch (difficultyOption)
+        {
+            case 1:
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("         ------ EASY ------- ");
+                Console.ForegroundColor = ConsoleColor.White;
+                game.Questions = new string[]
+                {
+                    "1. What is 1+1?",
+                    "2. What is 2*3?",
+                    "3. What is 5-2?",
+                    "4. What is 8/2?",
+                    "5. What is 4+5?"
+                };
+
+                game.Answers = new int[] { 2, 6, 3, 4, 9 };
+                break;
+            case 2:
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("         ------ MEDIUM ------- ");
+                Console.ForegroundColor = ConsoleColor.White;
+                game.Questions = new string[]
+                {
+                    "1. Solve for x: 2x + 5 = 13",
+                    "2. What is the square root of 144?",
+                    "3. Simplify the expression: 3(2x - 4) - 2(3x + 1)",
+                    "4. Solve the inequality: 2x - 7 < 5",
+                    "5. Evaluate the expression: (4^2) / 2 + 5",
+                    "6. Solve the equation for x: 2x+5=17",
+                    "7. What is the area of a rectangle with length 8 units and width 5 units?",
+                    "8. The sum of an arithmetic series is 120, and the common difference is 5. If there are n terms, find the value of n",
+                    "9. A box contains 36 marbles. If the probability of selecting a red marble is 1/4, how many red marbles are in the box?"
+                };
+
+                game.Answers = new int[] { 4, 12, -6, 6, 13, 6, 40, 25, 9 };
+                break;
+            case 3:
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("         ------ HARD ------- ");
+                Console.ForegroundColor = ConsoleColor.White;
+                game.Questions = new string[]
+                {
+                    "1. Find the solution to the equation 3y−7=8.",
+                    "2. Solve for x: 2x+5=15.",
+                    "3. What is the area of a rectangle with length 8 units and width 4 units?",
+                    "4. Evaluate the expression 4×(6+2)−5.",
+                    "5. Solve for x in the equation 2(x−4)=10",
+                    "6. Solve the equation 2(x+3)=5x−4",
+                    "7. A pizza is divided into 8 equal slices. If Sarah eats of the pizza, how many slices did she eat?",
+                    "8. If 4x+3=15, find the value of x.",
+                    "9. The area of a square is 49 square units. Find the length of one side",
+                    "10. A rectangular garden has a length of 12 meters and a width of 8 meters. What is the perimeter of the garden?",
+                    "11. Solve the equation 2(3x−1)=7",
+                    "12. A rectangular prism has dimensions of length 4, width 3, and height 5. Find its volume"
+                };
+
+                game.Answers = new int[] { 5, 5, 32, 27, 9, 2, 6, 3, 7, 40, 2, 60 };
+                break;
+            default:
+                throw new ArgumentException("Invalid difficulty option");
+        }
+    }
+
+}
