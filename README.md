@@ -1,0 +1,8 @@
+![12](https://github.com/CODONIC/MATH-CONSOLE-GAME-C-/assets/153823836/291f7f8e-6c59-4efe-adbd-a4898335f511)
+![13](https://github.com/CODONIC/MATH-CONSOLE-GAME-C-/assets/153823836/e5802a1c-3fbc-4124-9aba-c7b05c32f66e)
+![14](https://github.com/CODONIC/MATH-CONSOLE-GAME-C-/assets/153823836/7d6f8b1f-7621-430a-a233-3a2135d242de)
+![15](https://github.com/CODONIC/MATH-CONSOLE-GAME-C-/assets/153823836/3e555a48-1500-496d-9740-5999d224cdcc)
+![16](https://github.com/CODONIC/MATH-CONSOLE-GAME-C-/assets/153823836/3b116045-e411-4a71-b5bf-36f6c3979dae)
+![17](https://github.com/CODONIC/MATH-CONSOLE-GAME-C-/assets/153823836/d3a2c859-e34f-4b60-8083-c54cb29c44ad)
+![18](https://github.com/CODONIC/MATH-CONSOLE-GAME-C-/assets/153823836/65c4f8f3-b5b8-4c32-bb1b-c15c324b0fb7)
+![19](https://github.com/CODONIC/MATH-CONSOLE-GAME-C-/assets/153823836/3d56ca1e-033b-4794-89d5-383a81201080)
